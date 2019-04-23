@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.byteowls.jopencage.JOpenCageGeocoder;
+import com.byteowls.jopencage.model.JOpenCageResponse;
+import com.byteowls.jopencage.model.JOpenCageReverseRequest;
+
 @SpringBootApplication
 @EnableBinding(PodBinding.class)
 @RestController
@@ -45,6 +49,7 @@ public class PodprocessApplication {
                 logger.info("OVERSPEEDING uuid={}", podEvent.getUuid());
                 //PCC lookup call will be made to find policy info ro POD UUID
                 // MapMarker is based on BFF (backend for frontend) design, a complete event POJO
+                // call locationToAddress to use real address
                 mapMarker = new MapMarker(podEvent.getLatitude().doubleValue(),
                         podEvent.getLongitude().doubleValue(),
                         podEvent.getSpeed().doubleValue(),
@@ -63,6 +68,25 @@ public class PodprocessApplication {
     @GetMapping("/mapMarkers")
     public List<MapMarker> getMapMarkers() {
         return mapMarkers;
+    }
+
+    @GetMapping("locationToAddress")
+    public String locationToAddress() {
+        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("1696bcf8b9244296aa7b759c32289b70");
+
+        JOpenCageReverseRequest request = new JOpenCageReverseRequest(41.40015, 2.15765);
+        request.setLanguage("es"); // prioritize results in a specific language using an IETF format language code
+        request.setNoDedupe(true); // don't return duplicate results
+        request.setLimit(5); // only return the first 5 results (default is 10)
+        request.setNoAnnotations(true); // exclude additional info such as calling code, timezone, and currency
+        request.setMinConfidence(3); // restrict to results with a confidence rating of at least 3 (out of 10)
+
+        JOpenCageResponse response = jOpenCageGeocoder.reverse(request);
+
+        String formattedAddress = response.getResults().get(0).getFormatted();
+
+        return formattedAddress;
+
     }
 
 }

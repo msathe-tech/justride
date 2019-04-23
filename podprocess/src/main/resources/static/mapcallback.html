@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div style="overflow:hidden;width: 700px;position: relative;">
+    <script>
+
+        function initMap() {
+            var myLatLng = {lat: 40.742185, lng: -73.992602};
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Hello World!'
+            });
+        }
+    </script>
+    <iframe width="700" height="440"
+            src="https://maps.google.com/maps?width=700&amp;height=440&amp;hl=en&amp;q=London%2C%20United%20Kingdom+(Justride)&amp;ie=UTF8&amp;t=&amp;z=10&amp;iwloc=B&amp;output=embed"
+            frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+
+    </iframe>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+
+</div>
+<br />
+
+</body>
+</html>
+

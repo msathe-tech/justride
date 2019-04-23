@@ -11,6 +11,25 @@ public class PodEvent implements Serializable {
         this.speed = speed;
     }
 
+    public PodEvent() {
+    }
+
+    public void setUuid(Long uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
+
     @Override
     public String toString() {
         return "PodEvent{" +

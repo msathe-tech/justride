@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: zookeeper
+  name: zookeeper
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: zookeeper
+    spec:
+      containers:
+      - env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2181"
+        - name: ZOOKEEPER_TICK_TIME
+          value: "2000"
+        image: confluentinc/cp-zookeeper:latest
+        name: zookeeper
+        resources: {}
+      restartPolicy: Always
+status: {}

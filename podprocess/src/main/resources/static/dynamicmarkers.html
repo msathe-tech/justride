@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Markers</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 50%;
+            width: 50%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+    function initMap() {
+        var location;
+        var markerInfo;
+
+        $.ajax({
+            type: 'GET',
+            url: '/mapMarkers',
+            success: function (mapMarkers) {
+                console.log('success', mapMarkers);
+                $.each(mapMarkers, function (i, mapMarker) {
+                    location = {lat: mapMarker.latitude, lng: mapMarker.longitude};
+                    markerInfo = {policyNumber: mapMarker.policyNumber,
+                        customerName: mapMarker.customerName,
+                        violationSpeed: mapMarker.violationSpeed,
+                        averageSpeed: mapMarker.averageSpeed
+                    }
+                    console.log(markerInfo);
+                    locations.push(location);
+                    markerInfos.push(markerInfo);
+                    console.log(markerInfos.length);
+                });
+                console.log('Check baby check');
+                console.log(locations.length);
+
+                var mapCenter = {lat: 40.742185, lng: -73.992602};
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 8,
+                    center: mapCenter
+                });
+
+                var marker;
+                var infowindow;
+                var contentString;
+
+                var markers = locations.map(function(loc, i) {
+                    console.log(loc);
+                    markerInfo = markerInfos[i];
+                    marker = new google.maps.Marker({
+                        position: loc,
+                        label: markerInfo.violationSpeed
+                    });
+
+                    contentString = '<div id="content">'+
+                        '<div id="policy">'+
+                        '</div>'+
+                        '<h3>Policy: ' + markerInfo.policyNumber + '</h3>'+
+                        '<div id="bodyContent">'+
+                        '<p><b>Customer: ' + markerInfo.customerName + '</b></p>'+
+                        '<p><b>Violation Speed: ' + markerInfo.violationSpeed + '</b></p>'+
+                        '<p><b>Avg Speed (30 min): ' + markerInfo.averageSpeed + '</b></p>'+
+                        '</div>'+
+                        '</div>';
+
+                    infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+                    marker.addListener('click', function() {
+                        infowindow.open(map, marker);
+                    });
+
+                    return marker;
+
+                });
+
+                var markerCluster = new MarkerClusterer(map, markers,
+                    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+            }
+        });
+    }
+
+    var locations = [];
+    var markerInfos = [];
+
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+</script>
+</body>
+</html>

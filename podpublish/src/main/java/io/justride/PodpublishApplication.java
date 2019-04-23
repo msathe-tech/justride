@@ -36,6 +36,4 @@ public class PodpublishApplication {
         podOut.send(new GenericMessage<PodEvent>(podEvent));
     }
 
-
-
 }

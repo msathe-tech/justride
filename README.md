@@ -1,5 +1,5 @@
 ## Start Kafka locally
-1. docker-compose kafup -d
+1. docker-compose up -d
 2. run `docker ps` to ensure kafka has started
 
 ## POD event producer

@@ -9,5 +9,8 @@
 4. /1 is id, you can increment it for every request
 
 ## POD event processing
+
+Note - You need Google Maps API key. Once you have the actual API key, find and replace YOUR_API_KEY in the HTML code.
+
 1. Start podprocess app
 2. Access the app - http://localhost:8080/dynamicmarkers.html

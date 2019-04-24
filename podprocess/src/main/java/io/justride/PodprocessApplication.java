@@ -72,7 +72,8 @@ public class PodprocessApplication {
 
     @GetMapping("locationToAddress")
     public String locationToAddress() {
-        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("1696bcf8b9244296aa7b759c32289b70");
+        //Generate your API key on https://opencagedata.com
+        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("YOUR_opencagedata_KEY");
 
         JOpenCageReverseRequest request = new JOpenCageReverseRequest(41.40015, 2.15765);
         request.setLanguage("es"); // prioritize results in a specific language using an IETF format language code

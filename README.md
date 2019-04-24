@@ -14,3 +14,9 @@ Note - You need Google Maps API key. Once you have the actual API key, find and 
 
 1. Start podprocess app
 2. Access the app - http://localhost:8080/dynamicmarkers.html
+
+## Clean up Kafka containers
+
+1. docker kill $(docker ps -q)
+2. docker rm $(docker ps -a -q)
+3. docker rmi $(docker images -q)
